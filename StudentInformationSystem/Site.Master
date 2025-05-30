@@ -1,0 +1,87 @@
+﻿<%@ Master Language="VB" AutoEventWireup="true" CodeBehind="Site.master.vb" Inherits="StudentInformationSystem.SiteMaster" %>
+<%@ Import Namespace="StudentInformationSystem" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Student Information System</title>
+
+    <%-- CSS bundle --%>
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server" />
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" runat="server" href="~/">SIS</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/ManageStudents.aspx">Manage Students</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/ManageCourses.aspx">Manage Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/CourseStatistics.aspx">Course Statistics</a>
+                        </li>
+
+                        <asp:PlaceHolder ID="phAdminEnrollments" runat="server" Visible="false">
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/ManageEnrollments.aspx">Enrolled Students</a>
+                            </li>
+                        </asp:PlaceHolder>
+
+                        <asp:PlaceHolder ID="phStudentEnroll" runat="server" Visible="false">
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/EnrollCourses.aspx">Enroll in Courses</a>
+                            </li>
+                        </asp:PlaceHolder>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <% If Session("username") Is Nothing Then %>
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/Account/Register.aspx">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/Account/Login.aspx">Log in</a>
+                            </li>
+                        <% Else %>
+                            <li class="nav-item">
+                                <span class="nav-link">Hello, <%= Session("username") %>!</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/Logout.aspx">Log out</a>
+                            </li>
+                        <% End If %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            <hr />
+            <footer>
+                <p>&copy; <%= DateTime.Now.Year %> - Student Information System</p>
+            </footer>
+        </div>
+    </form>
+
+    <%-- JS bundle (optional if not using bundling) --%>
+    <%= Scripts.Render("~/Scripts/bootstrap.js") %>
+</body>
+</html>
